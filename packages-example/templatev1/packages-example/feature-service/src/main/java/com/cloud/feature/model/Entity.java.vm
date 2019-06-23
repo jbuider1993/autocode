@@ -1,0 +1,46 @@
+#set($entityName = ${entity.get("modelfields").get("name")})
+#set($entityUncapName = $GenUtils.uncapitalizeTableName($entityName))
+#set($entityCapitName = $GenUtils.capitalizeTableName($entityName))
+#set($entityLwCasName = $GenUtils.lowercaseTableName($entityName))
+#set($tableName = $entity.get("tablename"))
+#set($fields = ${entity.get("modelfields").get("properties")})
+package ${rootpackage}.model;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.math.BigInteger;
+
+@Entity
+@Table(name = "${tableName}")
+public class ${entityCapitName} implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
+  #foreach ($field in $fields.entrySet())
+    #set($fieldName = $field.value.get("field"))
+	#set($fieldType = ${GenUtils.mapToJavaType($field.value.get("type"))})
+	#set($keyField = $field.value.get("primkey"))
+    #set($property = ${GenUtils.converColumnName($field.key)})
+	#if(${keyField})
+	@Id
+	#end
+	@Column(name="${fieldName}")
+	private $fieldType $property;
+  #end
+
+  #foreach ($field in $fields.entrySet())
+    #set($fieldName = $field.value.get("field"))
+	#set($fieldType = ${GenUtils.mapToJavaType($field.value.get("type"))})
+	#set($keyField = $field.value.get("primkey"))
+    #set($property = ${GenUtils.converColumnName($field.key)})
+	public void set${StringUtils.capitalize($property)}($fieldType $property) {
+		this.$property = $property;
+	}
+	
+	public $fieldType get${StringUtils.capitalize($property)}() {
+		return ${property};
+	}
+  #end
+
+}

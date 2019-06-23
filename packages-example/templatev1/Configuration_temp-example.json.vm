@@ -1,0 +1,198 @@
+{
+   "name": "LVW Project",
+   "context": {
+        "basePath": "/V1"
+   },
+   "packages":[
+     {
+		"name": "parent-pom",
+  	    "templateBase": "${templateBase}/packages-example",
+	    "targetBase": "${targetBase}/packages-example",
+		"templateTargets": {
+		   "pom.xml.vm": "pom.xml"
+		}
+	 }
+     ,{
+		"name": "config-service",
+  	    "templateBase": "${templateBase}/packages-example/config-service",
+	    "targetBase": "${targetBase}/packages-example/config-service",
+		"context": {
+		    "rootpackage": "com.${projectid}.config"
+		},
+		"templateTargets": {
+		   "pom.xml.vm": "pom.xml",
+		   "src/main/java/com/cloud/config/ConfigApplication.java.vm": "src/main/java/com/${projectid}/config/ConfigApplication.java",
+           "src/main/resources/application.yml.vm": "src/main/resources/application.yml",		   
+           "src/main/resources/config/application.yml.vm": "src/main/resources/config/application.yml",
+           "src/main/resources/config/auth-service.yml.vm": "src/main/resources/config/auth-service.yml",
+           "src/main/resources/config/gateway-service.yml.vm": "src/main/resources/config/gateway-service.yml",
+           "src/main/resources/application.yml.vm": "src/main/resources/application.yml"
+		}		
+	 }
+     ,{
+		"name": "discovery-service",
+  	    "templateBase": "${templateBase}/packages-example/discovery-service",
+	    "targetBase": "${targetBase}/packages-example/discovery-service",
+		"context": {
+		    "rootpackage": "com.${projectid}.discovery"
+		},
+		"templateTargets": {
+		   "pom.xml.vm": "pom.xml",
+		   "src/main/java/com/cloud/discovery/RegistryApplication.java.vm": "src/main/java/com/${projectid}/discovery/RegistryApplication.java",
+		   "src/main/resources/application.yml.vm": "src/main/resources/application.yml"
+		}		
+	 }
+     ,{
+		"name": "gateway-service",
+  	    "templateBase": "${templateBase}/packages-example/gateway-service",
+	    "targetBase": "${targetBase}/packages-example/gateway-service",
+		"context": {
+		    "rootpackage": "com.${projectid}.gateway"
+		},
+		"templateTargets": {
+		   "pom.xml.vm": "pom.xml",
+		   "src/main/java/com/cloud/gateway/GatewayApplication.java.vm": "src/main/java/com/${projectid}/gateway/GatewayApplication.java",
+		   "src/main/java/com/cloud/gateway/FallbackController.java.vm": "src/main/java/com/${projectid}/gateway/FallbackController.java",
+		   "src/main/java/com/cloud/gateway/config/GatewayConfiguration.java.vm": "src/main/java/com/${projectid}/gateway/config/GatewayConfiguration.java",		   
+		   "src/main/java/com/cloud/gateway/filter/TokenFilter.java.vm": "src/main/java/com/${projectid}/gateway/filter/TokenFilter.java",		   
+		   "src/main/java/com/cloud/gateway/filter/RateLimitByIpGatewayFilter.java.vm": "src/main/java/com/${projectid}/gateway/filter/RateLimitByIpGatewayFilter.java",		  
+		   "src/main/java/com/cloud/gateway/filter/RateLimitByCpuGatewayFilter.java.vm": "src/main/java/com/${projectid}/gateway/filter/RateLimitByCpuGatewayFilter.java",
+		   "src/main/java/com/cloud/gateway/filter/ElapsedFilter.java.vm": "src/main/java/com/${projectid}/gateway/filter/ElapsedFilter.java",
+		   "src/main/java/com/cloud/gateway/filter/ratelimit/RemoteAddrKeyResolver.java.vm": "src/main/java/com/${projectid}/gateway/filter/ratelimit/RemoteAddrKeyResolver.java",		   
+		   "src/main/java/com/cloud/gateway/filter/factory/ElapsedGatewayFilterFactory.java.vm": "src/main/java/com/${projectid}/gateway/filter/factory/ElapsedGatewayFilterFactory.java",
+		   "src/main/resources/bootstrap.yml.vm": "src/main/resources/bootstrap.yml"
+		}		
+	 }
+     ,{
+		"name": "oauth-service",
+  	    "templateBase": "${templateBase}/packages-example/oauth-service",
+	    "targetBase": "${targetBase}/packages-example/oauth-service",
+		"context": {
+		    "rootpackage": "com.${projectid}.oauth"
+		},
+		"templateTargets": {
+		   "pom.xml.vm": "pom.xml",
+		   "src/main/java/com/cloud/oauth/AuthServerApplication.java.vm": "src/main/java/com/${projectid}/oauth/AuthServerApplication.java",
+		   "src/main/java/com/cloud/oauth/service/CustomUserDetailsService.java.vm": "src/main/java/com/${projectid}/oauth/service/CustomUserDetailsService.java",		   
+		   "src/main/java/com/cloud/oauth/repository/UserRepository.java.vm": "src/main/java/com/${projectid}/oauth/repository/UserRepository.java",		   
+		   "src/main/java/com/cloud/oauth/entity/BaseEntity.java.vm": "src/main/java/com/${projectid}/oauth/entity/BaseEntity.java",
+		   "src/main/java/com/cloud/oauth/entity/BaseIdEntity.java.vm": "src/main/java/com/${projectid}/oauth/entity/BaseIdEntity.java",
+		   "src/main/java/com/cloud/oauth/entity/Permission.java.vm": "src/main/java/com/${projectid}/oauth/entity/Permission.java",
+		   "src/main/java/com/cloud/oauth/entity/Role.java.vm": "src/main/java/com/${projectid}/oauth/entity/Role.java",
+		   "src/main/java/com/cloud/oauth/entity/User.java.vm": "src/main/java/com/${projectid}/oauth/entity/User.java",
+		   "src/main/java/com/cloud/oauth/config/CorsFilter.java.vm": "src/main/java/com/${projectid}/oauth/config/CorsFilter.java",
+		   "src/main/java/com/cloud/oauth/config/OAuth2Configuration.java.vm": "src/main/java/com/${projectid}/oauth/config/OAuth2Configuration.java",
+		   "src/main/java/com/cloud/oauth/config/WebSecurityConfiguration.java.vm": "src/main/java/com/${projectid}/oauth/config/WebSecurityConfiguration.java",		   
+		   "src/main/resources/bootstrap.yml.vm": "src/main/resources/bootstrap.yml",
+		   "src/main/resources/jwt.jks": "src/main/resources/jwt.jks"		   		   
+		}		
+     }
+     #displayEntityService($features)
+     #displayEntity($features)
+  ]
+}
+
+
+##==================================
+## macro
+##==================================
+#macro (displayEntityService, $features)
+   #foreach ( $feature in $features )
+		#set($featureUncapName = $GenUtils.uncapitalizeTableName(${feature.get("name")}))
+		#set($featureLwCasName = $GenUtils.lowercaseTableName(${feature.get("name")}))
+		#set($featureCaptiName = $GenUtils.capitalizeTableName(${feature.get("name")}))
+		#set($entities = $feature.get("entities"))
+	 ,{
+		"name": "${featureLwCasName}-service",
+  	    "templateBase": "${templateBase}/packages-example/feature-service",
+	    "targetBase": "${targetBase}/packages-example/${featureLwCasName}-service",
+		"context": {
+		    "rootpackage": "com.${projectid}.${featureLwCasName}",
+			"serviceName": "${featureUncapName}",
+			"entities": $mapperObj.writeValueAsString($entities),
+			"port": "225"
+		},
+		"templateTargets": {
+		   "pom.xml.vm": "pom.xml",
+		   "src/main/java/com/cloud/feature/Application.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/Application.java",		   		   		   
+		   "src/main/java/com/cloud/feature/api/CustomizedResponseEntityExceptionHandler.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/api/CustomizedResponseEntityExceptionHandler.java",
+		   "src/main/java/com/cloud/feature/api/BaseController.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/api/BaseController.java",
+		   "src/main/java/com/cloud/feature/api/BaseControllerImpl.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/api/BaseControllerImpl.java",
+		   "src/main/java/com/cloud/feature/api/BaseCreateController.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/api/BaseCreateController.java",
+		   "src/main/java/com/cloud/feature/api/BaseQueryController.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/api/BaseQueryController.java",
+		   "src/main/java/com/cloud/feature/api/BaseCreateController.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/api/BaseCreateController.java",
+		   "src/main/java/com/cloud/feature/api/BaseDeleteController.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/api/BaseDeleteController.java",
+		   "src/main/java/com/cloud/feature/api/BaseUpdateController.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/api/BaseUpdateController.java",
+		   "src/main/java/com/cloud/feature/api/BaseValidateController.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/api/BaseValidateController.java",
+
+		   "src/main/java/com/cloud/feature/apierror/ApiErrorCode.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/apierror/ApiErrorCode.java",		   		   		   
+		   "src/main/java/com/cloud/feature/apierror/ApiErrorsView.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/apierror/ApiErrorsView.java",		   		   		   
+		   "src/main/java/com/cloud/feature/apierror/ApiFieldError.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/apierror/ApiFieldError.java",		   		   		   
+		   "src/main/java/com/cloud/feature/apierror/ApiGlobalError.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/apierror/ApiGlobalError.java",		   		   		   
+
+		   "src/main/java/com/cloud/feature/config/ApiDocumentationConfig.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/config/ApiDocumentationConfig.java",		   		   		   
+		   "src/main/java/com/cloud/feature/config/GlobalMethodSecurityConfiguration.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/config/GlobalMethodSecurityConfiguration.java",		   		   		   
+		   "src/main/java/com/cloud/feature/config/JwtConfiguration.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/config/JwtConfiguration.java",		   		   		   
+		   "src/main/java/com/cloud/feature/config/ResourceServerConfiguration.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/config/ResourceServerConfiguration.java",		   		   		   
+		   "src/main/java/com/cloud/feature/config/SwaggerConfig.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/config/SwaggerConfig.java",		   		   		   
+		   
+		   "src/main/java/com/cloud/feature/exceptions/ExceptionResponse.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/exceptions/ExceptionResponse.java",	
+
+		   "src/main/java/com/cloud/feature/model/Page.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/model/Page.java",	
+		   "src/main/java/com/cloud/feature/model/RequestPage.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/model/RequestPage.java",	
+		   "src/main/java/com/cloud/feature/model/ResponseResult.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/model/ResponseResult.java",	
+		   "src/main/java/com/cloud/feature/model/ResponseValidate.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/model/ResponseValidate.java",	
+
+		   "src/main/java/com/cloud/feature/repositories/BaseRepository.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/repositories/BaseRepository.java",
+
+		   "src/main/java/com/cloud/feature/service/BaseService.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/service/BaseService.java",
+		   "src/main/java/com/cloud/feature/service/BaseServiceImpl.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/service/BaseServiceImpl.java",
+		   "src/main/java/com/cloud/feature/service/DefaultSortColumns.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/service/DefaultSortColumns.java",
+		   "src/main/java/com/cloud/feature/service/SortColumnBinding.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/service/SortColumnBinding.java",		   
+
+		   "src/main/java/com/cloud/feature/util/rsql/CustomRsqlVisitor.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/util/rsql/CustomRsqlVisitor.java",
+		   "src/main/java/com/cloud/feature/util/rsql/GenericRsqlSpecBuilder.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/util/rsql/GenericRsqlSpecBuilder.java",
+		   "src/main/java/com/cloud/feature/util/rsql/GenericRsqlSpecification.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/util/rsql/GenericRsqlSpecification.java",
+		   "src/main/java/com/cloud/feature/util/rsql/RsqlSearchOperation.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/util/rsql/RsqlSearchOperation.java",		   		   		   
+		   
+		   "src/main/resources/bootstrap.yml.vm": "src/main/resources/bootstrap.yml",
+		   "src/main/resources/public.cert": "src/main/resources/public.cert",		   
+		   "../config-service/src/main/resources/config/feature-service.yml.vm": "../config-service/src/main/resources/config/${featureUncapName}-service.yml"
+		}				
+	 }
+   #end  
+#end
+
+
+#macro (displayEntity, $features)
+   #set($metadata = $JDBCUtil.getMetaData(${dburl}, ${dbusername}, ${dbpassword}, ${dbdriverclass}))
+   #foreach ( $feature in $features )
+		#set($featureUncapName = $GenUtils.uncapitalizeTableName(${feature.get("name")}))
+		#set($featureLwCasName = $GenUtils.lowercaseTableName(${feature.get("name")}))
+		#set($featureCaptiName = $GenUtils.capitalizeTableName(${feature.get("name")}))
+		#set($entities = $feature.get("entities"))
+   #foreach($entity in $entities)
+        #set($entityName = $entity.get("modelfields").get("name"))
+		#set($tableName = $entity.get("tablename"))
+        #set($entityCaptiName = $GenUtils.capitalizeTableName(${entityName}))
+		#set($entityLwCasName = $GenUtils.lowercaseTableName(${entityName}))
+        #set($columns = $JDBCUtil.getColumns(${entityLwCasName}))
+	 ,{	 
+		$LogOut.printlnOut($mapperObj.writeValueAsString($columns))	 	 
+		"name": "${featureLwCasName}.${entityLwCasName}-entity",
+  	    "templateBase": "${templateBase}/packages-example/feature-service",
+	    "targetBase": "${targetBase}/packages-example/${featureLwCasName}-service",
+		"context": {		
+		    "rootpackage": "com.${projectid}.${featureLwCasName}",
+			"tablename": "${tableName}",
+			"entity": $mapperObj.writeValueAsString($entity)
+		},
+		"templateTargets": {		   		
+		   "src/main/java/com/cloud/feature/exceptions/EntityNotFoundException.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/exceptions/${entityCaptiName}NotFoundException.java",
+		   "src/main/java/com/cloud/feature/api/EntityController.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/api/${entityCaptiName}Controller.java",		   
+		   "src/main/java/com/cloud/feature/model/Entity.java.vm": "src/main/java/com/${projectid}/${featureLwCasName}/model/${entityCaptiName}.java"
+		}				
+	 }
+   #end
+   #end  
+#end

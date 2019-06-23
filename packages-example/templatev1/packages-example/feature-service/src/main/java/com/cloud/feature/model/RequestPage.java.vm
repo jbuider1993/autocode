@@ -1,0 +1,60 @@
+package ${rootpackage}.model;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import java.io.Serializable;
+
+@ApiModel(value="Page parameters",description="request page parameters")
+public class RequestPage implements Serializable {
+
+	public static final String DEFAULT_SORT_COLUMNS = "";
+	public static final Integer DEFAULT_PAGE_SIZE = 10;
+	public static final Integer DEFAULT_PAGE_NUMBER = 1;
+
+	/**
+	* @Fields serialVersionUID 
+	*/
+	private static final long serialVersionUID = 1L;
+	
+	@ApiModelProperty(value = "Page Length", required = false)
+	@Min(1)
+	@Digits (integer=100,fraction= 0 ) 
+	private Integer rows = DEFAULT_PAGE_SIZE;
+	
+	@ApiModelProperty(value = "Page Number", required = false)
+	@Min(1)
+	@Digits (integer=100,fraction= 0 ) 
+	private Integer page = DEFAULT_PAGE_NUMBER;
+
+	@ApiModelProperty(value = "Sort", required = false)
+	private String sc = DEFAULT_SORT_COLUMNS;
+
+	public Integer getRows() {
+		return rows;
+	}
+
+	public void setRows(Integer rows) {
+		this.rows = rows;
+	}
+
+	public Integer getPage() {
+		return page;
+	}
+
+	public void setPage(Integer page) {
+		this.page = page;
+	}
+
+	public String getSc() {
+		return sc;
+	}
+
+	public void setSc(String sc) {
+		this.sc = sc;
+	}
+
+	
+}

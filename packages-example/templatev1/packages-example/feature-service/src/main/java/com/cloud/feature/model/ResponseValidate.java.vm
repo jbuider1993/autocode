@@ -1,0 +1,51 @@
+﻿package ${rootpackage}.model;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+
+@ApiModel(value = "ResponseValidate（validate）", description = "validate")
+public class ResponseValidate implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty(value = "return:true false", notes = " true false", required = true)
+    private boolean valid;
+
+    private String msg;
+
+    public static ResponseValidate ok() {
+        return create(true);
+    }
+
+    public static ResponseValidate fail() {
+        return create(false);
+    }
+
+    public static ResponseValidate create(boolean valid) {
+    	ResponseValidate result = new ResponseValidate(); 
+    	result.setValid(valid);
+    	return result;
+    }
+
+	public boolean isValid() {
+		return valid;
+	}
+
+	public void setValid(boolean valid) {
+		this.valid = valid;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+   
+  
+	
+	
+}

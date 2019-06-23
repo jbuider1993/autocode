@@ -1,0 +1,18 @@
+
+${AnsiColor.GREEN}	IIIIIIIIII                      ffffffffffffffff                                       
+${AnsiColor.GREEN}	I::::::::I                     f::::::::::::::::f                                      
+${AnsiColor.GREEN}	I::::::::I                    f::::::::::::::::::f                                     
+${AnsiColor.GREEN}	II::::::II                    f::::::fffffff:::::f                                     
+${AnsiColor.GREEN}	  I::::I  nnnn  nnnnnnnn      f:::::f       ffffff   ooooooooooo   rrrrr   rrrrrrrrr   
+${AnsiColor.GREEN}	  I::::I  n:::nn::::::::nn    f:::::f              oo:::::::::::oo r::::rrr:::::::::r  
+${AnsiColor.GREEN}	  I::::I  n::::::::::::::nn  f:::::::ffffff       o:::::::::::::::or:::::::::::::::::r 
+${AnsiColor.GREEN}	  I::::I  nn:::::::::::::::n f::::::::::::f       o:::::ooooo:::::orr::::::rrrrr::::::r
+${AnsiColor.GREEN}	  I::::I    n:::::nnnn:::::n f::::::::::::f       o::::o     o::::o r:::::r     r:::::r
+${AnsiColor.GREEN}	  I::::I    n::::n    n::::n f:::::::ffffff       o::::o     o::::o r:::::r     rrrrrrr
+${AnsiColor.GREEN}	  I::::I    n::::n    n::::n  f:::::f             o::::o     o::::o r:::::r            
+${AnsiColor.GREEN}	  I::::I    n::::n    n::::n  f:::::f             o::::o     o::::o r:::::r            
+${AnsiColor.GREEN}	II::::::II  n::::n    n::::n f:::::::f            o:::::ooooo:::::o r:::::r            
+${AnsiColor.GREEN}	I::::::::I  n::::n    n::::n f:::::::f            o:::::::::::::::o r:::::r            
+${AnsiColor.GREEN}	I::::::::I  n::::n    n::::n f:::::::f             oo:::::::::::oo  r:::::r            
+${AnsiColor.GREEN}	IIIIIIIIII  nnnnnn    nnnnnn fffffffff               ooooooooooo    rrrrrrr            
+																						   

@@ -1,0 +1,23 @@
+package ${rootpackage}.service;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.repository.NoRepositoryBean;
+
+@NoRepositoryBean
+public interface BaseService<T, P extends Serializable> {		
+	Page<T> loadAll(Pageable pageRequest);
+	List<T> loadAll();
+    List<T> findAll(Specification<T> spec);
+    List<T> query(Specification<T> spec);
+    void add(T bean);
+	void update(T bean);
+	void delete(P id);
+	Optional<T> findById(P id);
+	boolean Exists(P id);
+}

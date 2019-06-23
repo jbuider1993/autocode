@@ -1,0 +1,78 @@
+{
+  "name": "Spring Cloud",
+  "templateBase": "C:/AutoTemplates/SpringBoot/templatev1",
+  "targetBase": "C:/AutoTemplates/SpringBoot/generatedv1",  
+  "context": {
+    "projectid": "cloud",
+    "description": "Lvm Project 1.0",
+    "apptitle": "AppDemo",
+    "artifactid": "cloud-app",
+    "version": "1.0",
+    "groupid": "com.cloud",
+    "project": "SpringCloud",
+    "dburl": "jdbc:mysql://127.0.0.1:13306/hcmdb?createDatabaseIfNotExist=true",
+    "dbusername": "hcmuser",
+    "dbpassword": "Infor123",
+    "host": "localhost:4000",
+    "basePath": "/v1",
+    "dbdriverclass": "com.mysql.jdbc.Driver",
+    "templateBase": "C:/AutoTemplates/SpringBoot/templatev1",
+    "targetBase": "C:/AutoTemplates/SpringBoot/generatedv1",		
+    "features": [
+      {
+        "name": "employee",
+        "entities": [
+          {
+            "tablename": "employee",
+            "modelfields": {
+              "name": "employee",
+              "properties": {
+                "empId": {
+                  "type": "String",
+                  "label": "employee Id",
+                  "field": "EMP_ID",
+                  "primkey": "true",
+                  "required": "true"
+                },
+                "firstName": {
+                  "type": "String",
+                  "label": "First Name",
+                  "field": "FIRSTNAME"
+                },
+                "lastName": {
+                  "type": "String",
+                  "label": "First Name",
+                  "field": "LASTNAME"
+                },
+                "emailAddress": {
+                  "type": "String",
+                  "label": "email address",
+                  "UIFormat": "email",
+                  "field": "EMAILADDRESS"
+                },
+                "calcGroup": {
+                  "type": "CalcGroup",
+                  "label": "calc Group",
+                  "UIFormat": "list",
+                  "field": "CALCGRP_ID",
+                  "frnkey": {
+                    "reftable": "calc_group",
+                    "refobject": "CALCGRP_ID"
+                  }
+                },
+                "sin": {
+                  "type": "String",
+                  "label": "SIN",
+                  "field": "SIN"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "templateTargets": {
+    "Configuration_temp-example.json.vm": "Configuration_temp-example.vm.json"
+  }
+}

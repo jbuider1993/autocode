@@ -1,0 +1,28 @@
+package ${rootpackage}.web;
+
+import io.swagger.annotations.ApiOperation;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import ${rootpackage}.model.ResponseResult;
+
+import java.io.Serializable;
+import java.util.Set;
+
+import javax.validation.Valid;
+
+public interface BaseDeleteController<T, P extends Serializable> {
+
+    @PreAuthorize("hasAuthority('can_delete_user')")
+    @RequestMapping(value = "{ids}", method = RequestMethod.DELETE)
+    @ApiOperation(value = "group Ids",notes = "group Ids")
+    ResponseEntity<Set<P>> delete(@Valid @PathVariable("ids") Set<P> ids);
+    
+    @PreAuthorize("hasAuthority('can_delete_user')")
+    @RequestMapping(value = "cond", method = RequestMethod.DELETE)
+    @ApiOperation(value = "condition delete",notes = "condition delete")
+    ResponseResult deleteCond(@Validated @ModelAttribute T bean);
+}

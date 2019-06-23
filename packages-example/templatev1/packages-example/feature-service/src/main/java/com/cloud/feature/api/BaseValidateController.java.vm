@@ -1,0 +1,16 @@
+package ${rootpackage}.api;
+
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import ${rootpackage}.model.ResponseValidate;
+
+import java.io.Serializable;
+
+public interface BaseValidateController<T extends Serializable> {
+
+    @ApiOperation(value = "validate",notes = "valid false")
+    @RequestMapping(value = "validation", method = RequestMethod.GET)
+    ResponseValidate validate(T bean);
+}

@@ -1,0 +1,16 @@
+#set($entityUncapName = $GenUtils.uncapitalizeTableName(${tablename}))
+#set($entityCapitName = $GenUtils.capitalizeTableName(${tablename}))
+#set($entityLwCasName = $GenUtils.lowercaseTableName(${tablename}))
+#set($fields = ${entity.get("modelfields").get("properties")})
+package ${rootpackage}.api;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import ${rootpackage}.model.$entityCapitName;
+
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping("/${entityLwCasName}")
+public class EmployeeController extends BaseControllerImpl<$entityCapitName, Long> {
+}

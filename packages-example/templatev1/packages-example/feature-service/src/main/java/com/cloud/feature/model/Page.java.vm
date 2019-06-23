@@ -1,0 +1,186 @@
+package ${rootpackage}.model;
+
+import java.io.Serializable;
+import java.util.*;
+
+public class Page<T> implements Serializable, Iterable<T> {
+    private static final long serialVersionUID = 3035157868344176539L;
+
+    private int pageSize, pageNumber, total;
+    private List<T> rows;
+
+    public Page(int pageNumber, int pageSize, int total) {
+        this(pageNumber, pageSize, total, new ArrayList<>(pageSize));
+    }
+
+    public Page(int pageNumber, int pageSize, int total, List<T> rows) {
+        this.pageSize = pageSize;
+        this.pageNumber = correctPageNumber(pageNumber, pageSize, total);
+        this.total = total;
+        setRows(rows);
+    }
+
+    public Page<T> setRows(List<T> rows) {
+        if (rows == null)
+            throw new IllegalArgumentException("[rows] must be not null");
+        this.rows = rows;
+        return this;
+    }
+
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public int getPageNumber() {
+        return pageNumber;
+    }
+
+
+    public int getTotal() {
+        return total;
+    }
+
+    public boolean isFirstPage() {
+        return pageNumber == 1;
+    }
+
+    public boolean isLastPage() {
+        return getPageNumber() == getLastPageNumber();
+    }
+
+    public boolean hasNextPage() {
+        return getLastPageNumber() > getPageNumber();
+    }
+
+    public boolean hasPrevPage() {
+        return getPageNumber() > 1;
+    }
+
+    public int getLastPageNumber() {
+        return computeLastPageNumber(total, pageSize);
+    }
+
+
+    public int getFirstElementIndex() {
+        return (pageNumber - 1) * pageSize;
+    }
+
+    public int getFirstElementNumber() {
+        return total == 0 ? 0 : (getPageNumber() - 1) * pageSize + 1;
+    }
+
+    public int getLastElementNumber() {
+        int fullPage = getFirstElementNumber() + getPageSize() - 1;
+        return getTotal() < fullPage ? getTotal() : fullPage;
+    }
+
+    public int getNextPageNumber() {
+        return hasNextPage() ? getPageNumber() + 1 : getLastPageNumber();
+    }
+
+    public int getPrevPageNumber() {
+        return hasPrevPage() ? getPageNumber() - 1 : 1;
+    }
+
+    public List<Integer> getPageNumbers(int count) {
+        return computePageNumbers(getPageNumber(), getLastPageNumber(), count);
+    }
+
+    public List<Integer> getPageNumbers() {
+        return computePageNumbers(getPageNumber(), getLastPageNumber(), 9);
+    }
+
+    public List<Integer> getEllipsisPageNumbers(int count) {
+        return computeEllipsisPageNumbers(getPageNumber(), getLastPageNumber(), count);
+    }
+
+    public List<Integer> getEllipsisPageNumbers() {
+        return computeEllipsisPageNumbers(getPageNumber(), getLastPageNumber(), 9);
+    }
+
+    public List<T> getRows() {
+        return rows;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return rows == null ? Collections.emptyListIterator() : rows.iterator();
+    }
+
+    /**
+     *
+     * @param current 
+     * @param last    
+     * @param count  
+     */
+    private LinkedList<Integer> computePageNumbers(int current, int last, int count) {
+        int avg = count / 2;
+        int start = current - avg;
+        if (start < 1) {
+            start = 1;
+        }
+        int end = start + count - 1;
+        if (end > last) {
+            end = last;
+        }
+        if (end - start < count) {
+            start = end - count + 1;
+            if (start < 1) {
+                start = 1;
+            }
+        }
+        LinkedList<Integer> pages = new LinkedList<>();
+        for (int i = start; i <= end; i++) {
+            pages.add(i);
+        }
+        return pages;
+    }
+
+    private int correctPageNumber(int pageNumber, int pageSize, int totalCount) {
+        if (pageNumber < 1) {
+            pageNumber = 1;
+        }
+        int lastPageNumber = computeLastPageNumber(totalCount, pageSize);
+        if (Integer.MAX_VALUE == pageNumber || pageNumber > lastPageNumber) {
+            pageNumber = lastPageNumber;
+        }
+        return pageNumber;
+    }
+
+    /**
+     *
+     * @param current 
+     * @param last    
+     * @param count 
+     */
+    private List<Integer> computeEllipsisPageNumbers(int current, int last, int count) {
+        LinkedList<Integer> pages = computePageNumbers(current, last, count);
+        if (pages.getFirst() != 1) {
+            pages.addFirst(1);
+            if (pages.size() > count) {
+                pages.set(1, 0);
+                pages.remove(2);
+            }
+        }
+        if (pages.getLast() != last) {
+            pages.addLast(last);
+            int size = pages.size();
+            if (size > count) {
+                pages.set(size - 2, 0);
+                pages.remove(size - 3);
+            }
+        }
+        return pages;
+    }
+
+    /**
+     *
+     * @param totalCount
+     * @param pageSize 
+     */
+    private int computeLastPageNumber(int totalCount, int pageSize) {
+        int result = totalCount % pageSize == 0 ? totalCount / pageSize : totalCount / pageSize + 1;
+        return result < 1 ? 1 : result;
+    }
+}

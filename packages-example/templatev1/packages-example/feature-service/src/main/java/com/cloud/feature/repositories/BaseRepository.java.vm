@@ -1,0 +1,22 @@
+package ${rootpackage}.repositories;
+
+import java.io.Serializable;
+
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+@NoRepositoryBean
+public interface BaseRepository<T extends Serializable, P extends Serializable> extends PagingAndSortingRepository<T, P>, JpaSpecificationExecutor<T> {
+}
+
+
+
+/*
+You use com.foobar because you have CustomerRepository in the same package. The Spring Data infrastructure now has no way to tell that the MyBaseRepository is not a concrete repository interface but rather acts as intermediate repo to expose the additional method. So it would try to create a repository proxy instance for it and fail. You can now use @NoRepositoryBean to annotate this intermediate interface to essentially tell Spring Data: don't create a repository proxy bean for this interface.
+
+That scenario is also the reason why CrudRepository and PagingAndSortingRepository carry this annotation as well. If the package scanning picked those up by accident (because you've accidentally configured it this way) the bootstrap would fail.
+
+Long story short: use the annotation to prevent repository interfaces from being picked up as candidates to end up as repository bean instances eventually.
+
+*/

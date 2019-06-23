@@ -1,0 +1,22 @@
+info:
+  component: Config Server
+spring:
+  application:
+    name: configserver
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/spring-cloud-samples/config-repo
+          repos:
+            - patterns: multi-repo-demo-*
+              uri: https://github.com/spring-cloud-samples/config-repo
+
+server:
+  port: 8888
+  
+security:
+  user:
+    username: root
+    password: Infor123
+  

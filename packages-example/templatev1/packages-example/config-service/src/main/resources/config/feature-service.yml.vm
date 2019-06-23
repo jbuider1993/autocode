@@ -1,0 +1,16 @@
+server: 
+  port: ${port}  
+spring:
+    jpa:
+        show-sql: true
+        database: MYSQL
+    hibernate:
+        ddl-auto: update
+    datasource:
+        initialize: true
+        url: ${dburl}
+        username: ${dbusername}
+        password: ${dbpassword}
+        driver-class-name: ${dbdriverclass}	
+
+    

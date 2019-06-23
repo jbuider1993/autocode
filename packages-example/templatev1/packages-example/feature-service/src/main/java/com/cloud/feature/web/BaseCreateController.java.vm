@@ -1,0 +1,21 @@
+package ${rootpackage}.web;
+
+import io.swagger.annotations.ApiOperation;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.io.Serializable;
+
+import javax.validation.Valid;
+
+public interface BaseCreateController<T extends Serializable> {
+
+	@PreAuthorize("hasAuthority('can_update_user')")
+    @ApiOperation(value = "Add new object",notes = "add new object")
+    @RequestMapping(method = RequestMethod.POST)
+	ResponseEntity<T> create(@Valid @RequestBody T bean);
+}

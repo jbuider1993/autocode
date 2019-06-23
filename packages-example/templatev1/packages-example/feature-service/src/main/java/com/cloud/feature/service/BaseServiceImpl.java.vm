@@ -1,0 +1,65 @@
+package com.cloud.employee.service;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+import com.cloud.employee.repositories.BaseRepository;
+
+@Service
+public  class BaseServiceImpl<T extends Serializable, P extends Serializable> implements BaseService<T, P> {
+	
+	@Autowired
+	BaseRepository<T, P> baseRepository;
+	
+	@Override
+	public Page<T> loadAll(Pageable pageRequest) {
+		return baseRepository.findAll(pageRequest);
+	}
+
+	@Override
+	public List<T> loadAll() {
+		return (List<T>)baseRepository.findAll();
+	}
+
+	@Override
+	public List<T> findAll(Specification<T> spec) {
+		return (List<T>)baseRepository.findAll(spec);
+	}
+
+	@Override
+	public void add(T bean) {
+		baseRepository.save(bean);
+	}
+
+	@Override
+	public void update(T bean) {
+		baseRepository.save(bean);
+	}
+
+	@Override
+	public void delete(P id) {
+		baseRepository.deleteById(id);
+	}
+
+	@Override
+	public Optional<T> findById(P id) {
+		return  baseRepository.findById(id);
+	}
+
+	@Override
+	public boolean Exists(P id) {
+		return baseRepository.existsById(id);
+	}
+	
+	@Override
+	public List<T> query(Specification<T> spec) {
+		return (List<T>)baseRepository.findAll(spec);
+	}
+
+}

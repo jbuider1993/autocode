@@ -1,0 +1,1 @@
+java -cp generte.jar com.aviva.ca.App %*
