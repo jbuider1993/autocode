@@ -1,0 +1,44 @@
+#set($entityName = $entity.keySet().iterator().next())
+#set($entityUncapName = $GenUtils.uncapitalizeTableName($entityName))
+#set($entityCapitName = $GenUtils.capitalizeTableName($entityName))
+#set($entityLwCasName = $GenUtils.lowercaseTableName($entityName))
+#set($query = $dataset.get("query"))
+#set($keyName = $keySet.get("TYPE"))
+#set($fields = $keySet.get("KEYS"))
+package ${rootpackage}.model;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.math.BigInteger;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@Embeddable
+public class $keyName implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
+  #foreach ($field in $fields)
+    #set($fieldName = $field.get("COLUMN_NAME"))	
+	#set($fieldType = $field.get("DATA_TYPE"))
+	#set($keyField = $field.value.get("primkey"))
+	#set($foreignkey = $field.get("FOREIGNkEY").get("PKCOLUMN_NAME"))
+	#set($foreigntable = $GenUtils.converColumnName($field.get("FOREIGNkEY").get("PKTABLE_NAME")))
+    #set($property = ${GenUtils.converColumnName($fieldName)})	
+	#if($field.get("IS_NULLABLE") == "NO")
+	@NotEmpty
+	#end
+	#if($field.get("COLUMN_SIZE"))
+	@Size(max=$field.get("COLUMN_SIZE"))
+	#end
+	@Column(name="${fieldName}")
+	private $fieldType $property;
+	
+  #end
+
+}

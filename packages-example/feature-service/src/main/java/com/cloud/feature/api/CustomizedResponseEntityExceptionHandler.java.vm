@@ -1,0 +1,86 @@
+package ${rootpackage}.api;
+
+import static java.util.stream.Collectors.toList;
+import java.util.Date;
+import java.util.List;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import ${rootpackage}.apierror.ApiErrorsView;
+import ${rootpackage}.apierror.ApiFieldError;
+import ${rootpackage}.apierror.ApiGlobalError;
+import ${rootpackage}.exceptions.ExceptionResponse;
+
+#foreach($entity in $entities)
+	#set($tableName = $entity.get("tablename"))
+	#set($entityCaptiName = $GenUtils.capitalizeTableName(${tableName}))
+#if (!$StringUtils.isBlank($tableName))	
+import ${rootpackage}.exceptions.${entityCaptiName}NotFoundException;
+#end
+#end
+
+@RestControllerAdvice
+public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+
+  @ExceptionHandler({Exception.class})
+  public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
+    ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+    return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+#foreach($entity in $entities)
+	#set($tableName = $entity.get("tablename"))
+	#set($entityCaptiName = $GenUtils.capitalizeTableName(${tableName}))
+#if(!$StringUtils.isBlank($tableName))
+  @ExceptionHandler({${entityCaptiName}NotFoundException.class})
+  public final ResponseEntity<Object> handleUserNotFoundException(RuntimeException ex, WebRequest request) {
+    ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+    return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+  }
+  
+#end
+#end
+  
+/*  
+
+  @Override
+  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+      HttpHeaders headers, HttpStatus status, WebRequest request) {
+    ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Validation Failed",
+        ex.getBindingResult().toString());
+    return new ResponseEntity<Object>(exceptionResponse, HttpStatus.BAD_REQUEST);
+  }
+ */
+  
+  @Override
+  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status,  WebRequest request) {
+      BindingResult bindingResult = ex.getBindingResult();
+
+      List<ApiFieldError> apiFieldErrors = bindingResult.getFieldErrors().stream()
+              .map(fieldError -> new ApiFieldError(
+                      fieldError.getField(),
+                      fieldError.getCode(),
+                      fieldError.getRejectedValue())
+              )
+              .collect(toList());
+
+      List<ApiGlobalError> apiGlobalErrors = bindingResult
+              .getGlobalErrors()
+              .stream()
+              .map(globalError -> new ApiGlobalError(
+                      globalError.getCode())
+              )
+              .collect(toList());
+
+      ApiErrorsView apiErrorsView = new ApiErrorsView(apiFieldErrors, apiGlobalErrors);
+
+      return new ResponseEntity<>(apiErrorsView, HttpStatus.UNPROCESSABLE_ENTITY);
+  }  
+  
+}

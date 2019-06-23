@@ -1,0 +1,67 @@
+package ${rootpackage}.model;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
+
+
+@ApiModel(value = "ResponseResult（response）", description = "response data")
+public class ResponseResult<T> implements Serializable {
+
+
+    private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty(value = "result:true false", notes = " true false", required = true)
+    private boolean success;
+
+    @ApiModelProperty(value = "result message")
+    private String msg;
+
+    @ApiModelProperty(value = "response message")
+    private T data;
+
+    public static <T> ResponseResult<T> ok() {
+    	return new ResponseResult(1);
+    }
+
+    public static <T> ResponseResult<T> fail() {
+        return new ResponseResult(0);
+    }
+
+    public static <T> ResponseResult<T> create(int record) {
+        return new ResponseResult(record);
+    }
+
+    ResponseResult(int record) {
+        super();
+        this.success = record > 0 ? true : false;
+    }
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+	public T getData() {
+		return data;
+	}
+
+	public void setData(T data) {
+		this.data = data;
+	}
+
+    
+    
+}

@@ -1,0 +1,16 @@
+info:
+  component: Config Server
+  
+spring:
+  application:
+    name: configserver
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/shared
+  profiles:
+     active: native
+
+server:
+  port: 8888

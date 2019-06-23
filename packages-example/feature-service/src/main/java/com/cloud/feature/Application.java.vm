@@ -1,0 +1,34 @@
+package ${rootpackage};
+
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
+@SpringBootApplication
+@EnableDiscoveryClient
+//@EnableSwagger2
+public class Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
+	}
+	
+	/*
+	@Bean
+	public Docket api() throws IOException {
+       // MavenXpp3Reader reader = new MavenXpp3Reader();
+       // Model model = reader.read(new FileReader("pom.xml"));
+        return new Docket(DocumentationType.SWAGGER_2)  
+                .select() 
+                .apis(RequestHandlerSelectors.basePackage("com.cloud.employee"))           
+                .paths(PathSelectors.any())       
+//                .build().apiInfo(new ApiInfo("Employee Service Api Documentation", "Documentation automatically generated", model.getParent().getVersion(), null, null, null, null));                
+                .build().apiInfo(new ApiInfo("Employee Service Api Documentation", "Documentation automatically generated","1.0.0", null, null, null, null));
+	}
+	*/
+    
+	
+}

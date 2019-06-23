@@ -1,0 +1,67 @@
+package ${rootpackage}.apierror;
+
+import java.util.Date;
+import java.util.List;
+
+public class ApiErrorsView {
+	private Date timestamp;
+	private String message;
+	private String detail;
+    private List<ApiFieldError> fieldErrors;
+    private List<ApiGlobalError> globalErrors;
+
+    public ApiErrorsView(List<ApiFieldError> fieldErrors, List<ApiGlobalError> globalErrors) {
+        this.fieldErrors = fieldErrors;
+        this.globalErrors = globalErrors;
+        this.timestamp = new Date();
+    }
+
+    public ApiErrorsView(String message, String detail, List<ApiFieldError> fieldErrors, List<ApiGlobalError> globalErrors) {
+    	this.message = message;
+    	this.detail  = detail;
+        this.fieldErrors = fieldErrors;
+        this.globalErrors = globalErrors;
+        this.timestamp = new Date();
+    }
+
+    public ApiErrorsView(String message, String detail) {
+    	this.message = message;
+    	this.detail  = detail;
+        this.timestamp = new Date();
+    }
+    
+
+    public List<ApiFieldError> getFieldErrors() {
+        return fieldErrors;
+    }
+
+    public List<ApiGlobalError> getGlobalErrors() {
+        return globalErrors;
+    }
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
+    
+    
+}

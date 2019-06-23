@@ -1,0 +1,22 @@
+server:
+  port: 5000
+spring:
+  datasource:
+    url: $auth_db.get("url")
+    username: $auth_db.get("username")
+    password: $auth_db.get("password")
+    driver-class-name: $auth_db.get("driverclass")
+    tomcat:
+      test-while-idle: true
+      validation-query: SELECT 1
+    initialization-mode: never
+    platform: mysql
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+      ddl-auto: validate
+check-user-scopes: true

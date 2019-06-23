@@ -1,0 +1,69 @@
+package ${rootpackage}.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+import ${rootpackage}.repositories.$GenUtils.capitalizeTableName($tableName)Repository;
+import ${rootpackage}.model.${entityName};
+#set($keyType = $keySet.get("TYPE"))
+#if($keySet.get("EMBADABLE"))
+import ${rootpackage}.model.$keyType;
+#end
+
+@Service
+public  class $GenUtils.capitalizeTableName($tableName)Service implements BaseService<${entityName}, $keyType> {
+	
+	@Autowired
+	$GenUtils.capitalizeTableName($tableName)Repository baseRepository;
+	
+	@Override
+	public Page<${entityName}> loadAll(Pageable pageRequest) {
+		return baseRepository.findAll(pageRequest);
+	}
+
+	@Override
+	public List<${entityName}> loadAll() {
+		return (List<${entityName}>)baseRepository.findAll();
+	}
+
+	@Override
+	public List<${entityName}> findAll(Specification<${entityName}> spec) {
+		return (List<${entityName}>)baseRepository.findAll(spec);
+	}
+
+	@Override
+	public void add(${entityName} bean) {
+		baseRepository.save(bean);
+	}
+
+	@Override
+	public void update(${entityName} bean) {
+		baseRepository.save(bean);
+	}
+
+	@Override
+	public void delete($keyType id) {
+		baseRepository.deleteById(id);
+	}
+
+	@Override
+	public Optional<${entityName}> findById($keyType id) {
+		return  baseRepository.findById(id);
+	}
+
+	@Override
+	public boolean Exists($keyType id) {
+		return baseRepository.existsById(id);
+	}
+	
+	@Override
+	public List<${entityName}> query(Specification<${entityName}> spec) {
+		return (List<${entityName}>)baseRepository.findAll(spec);
+	}
+
+}

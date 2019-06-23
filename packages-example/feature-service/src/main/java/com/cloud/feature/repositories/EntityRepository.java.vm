@@ -1,0 +1,13 @@
+package ${rootpackage}.repositories;
+
+import org.springframework.stereotype.Repository;
+import ${rootpackage}.model.${entityName};
+#set($keyType = $keySet.get("TYPE"))
+#if($keySet.get("EMBADABLE"))
+import ${rootpackage}.model.$keyType;
+#end
+
+@Repository
+public interface $GenUtils.capitalizeTableName($tableName)Repository extends BaseRepository<$entityName, $keyType>  {
+    
+}

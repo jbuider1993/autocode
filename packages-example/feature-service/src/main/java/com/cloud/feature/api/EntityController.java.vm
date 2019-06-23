@@ -1,0 +1,150 @@
+package ${rootpackage}.api;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import cz.jirutka.rsql.parser.RSQLParser;
+import cz.jirutka.rsql.parser.ast.Node;
+
+import ${rootpackage}.model.ResponseResult;
+import ${rootpackage}.model.ResponseValidate;
+import ${rootpackage}.util.rsql.CustomRsqlVisitor;
+
+import ${rootpackage}.service.$GenUtils.capitalizeTableName($tableName)Service;
+import ${rootpackage}.model.${entityName};
+#set($keyType = $keySet.get("TYPE"))
+#if($keySet.get("EMBADABLE"))
+import ${rootpackage}.model.$keyType;
+#end
+
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping("/${pathName}")
+public class ${GenUtils.capitalizeTableName($pathName)}Controller implements BaseController<${entityName}, $keyType> {
+	
+	protected Logger logger = Logger.getLogger(${GenUtils.capitalizeTableName($pathName)}Controller.class.getName());
+	
+	@Autowired
+	protected $GenUtils.capitalizeTableName($tableName)Service baseService;	
+		
+    @Autowired
+    protected HttpServletRequest request;
+
+    @Autowired
+    protected HttpServletResponse response;  
+   
+
+    @Override
+    public List<${entityName}> queryByCondition(@Valid @RequestParam(value = "search") String search) {
+    	if (search.isEmpty()) {
+    		return baseService.loadAll();
+    	} else {
+	        Node rootNode = new RSQLParser().parse(search);
+	        Specification<${entityName}> spec = rootNode.accept(new CustomRsqlVisitor<${entityName}>());
+	    	return baseService.findAll(spec);
+    	}
+    }  
+	
+	@Override
+    public ResponseEntity<${entityName}> create(@Valid @RequestBody ${entityName} bean) {
+		logger.info(" Create :" + bean);
+		baseService.add(bean);
+    	return new ResponseEntity<${entityName}>(bean, HttpStatus.OK);
+    }
+
+    @Override
+    public  ResponseEntity<${entityName}> update(@Valid @RequestBody ${entityName} bean) {
+		logger.info(" Update :" + bean);
+		baseService.add(bean);
+    	return new ResponseEntity<${entityName}>(bean, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Set<$keyType>> delete(@Valid @PathVariable("ids") Set<$keyType> ids) {
+		logger.info(" Update :" + ids);
+    	for ($keyType id : ids) {
+    		baseService.delete(id);
+    	}
+    	return new ResponseEntity<Set<$keyType>>(ids, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseResult deleteCond(@Valid @ModelAttribute ${entityName} bean) {
+    	return null;
+    }
+
+    @Override
+    public ResponseValidate validate(${entityName} bean) {
+    	return null;
+    }
+    
+    /*
+	@Override
+	public Page<${entityName}> query(@Valid @ModelAttribute RequestPage requestPage, @Valid @RequestParam(value = "search") String search) {
+		return null;
+	}
+	*/
+
+	@Override
+	public ResponseEntity<Optional<${entityName}>> get(@Valid $keyType id) {
+		logger.info(" get :" + id);	
+		return new ResponseEntity<Optional<${entityName}>>(baseService.findById(id), HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<List<${entityName}>> get() {
+		logger.info(" get all records ");
+		return new ResponseEntity<List<${entityName}>>(baseService.loadAll(), HttpStatus.OK);
+	}
+
+	//url format
+	//pageable?page=0&dize=25&sort=name
+	
+	@Override
+	public ResponseEntity<Page<${entityName}>> get(Pageable pageRequest) {
+		return new ResponseEntity<Page<${entityName}>>(baseService.loadAll(pageRequest), HttpStatus.OK);
+	}	
+	
+	//===================================================================================
+	// This is for test Generic 
+	//
+	//===================================================================================
+		
+	/*
+	public static <T, G> List<G> fromArrayToList(T[] a, Function<T, G> mapperFunction) {
+	    return Arrays.stream(a)
+	      .map(mapperFunction)
+	      .collect(Collectors.toList());
+	} 
+	
+	@Test
+	public void givenArrayOfIntegers_thanListOfStringReturnedOK() {
+	    Integer[] intArray = {1, 2, 3, 4, 5};
+	    List<String> stringList
+	      = fromArrayToList(intArray, Object::toString);
+	  
+	    assertThat(stringList, hasItems("1", "2", "3", "4", "5"));
+	}
+	*/	
+	
+	
+}

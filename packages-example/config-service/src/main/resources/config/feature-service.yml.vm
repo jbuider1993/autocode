@@ -1,0 +1,25 @@
+server: 
+  port: ${port}  
+spring:
+    jpa:
+        show-sql: true
+        database: MYSQL
+        hibernate:
+            ddl-auto: update
+            naming:
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl	
+        properties:
+            hibernate.cache.use_second_level_cache: false
+            hibernate.cache.use_query_cache: false
+            hibernate.jdbc.time_zone: UTC				
+    datasource:
+        initialize: true
+        url: ${url}
+        username: ${username}
+        password: ${password}
+        driver-class-name: ${driverclass}
+        hikari:
+            maximumPoolSize: 20
+            minimumIdle: 8      
+
+    

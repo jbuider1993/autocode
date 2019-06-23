@@ -1,0 +1,115 @@
+#set($entityName = $entity.keySet().iterator().next())
+#set($entityUncapName = $GenUtils.uncapitalizeTableName($entityName))
+#set($entityCapitName = $GenUtils.capitalizeTableName($entityName))
+#set($entityLwCasName = $GenUtils.lowercaseTableName($entityName))
+#set($query = $dataset.get("query"))
+#set($fields = $entity.values().iterator().next().fields)
+package ${rootpackage}.model;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.math.BigInteger;
+
+@Entity
+#if (!$StringUtils.isBlank(${tableName}))
+    #set($fields = $JDBCUtil.getColumns("${tableName}"))
+@Table(name = "${tableName}")
+#end
+public class ${entityName} implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
+  #if(!$StringUtils.isBlank(${tableName}))
+	#if($keySet.get("EMBADABLE"))
+	@EmbeddedId
+	private $keySet.get("TYPE") $StringUtils.uncapitalize($keySet.get("TYPE"));
+	#else
+	@Id
+	#set($keyFields = $keySet.get("KEYS"))
+	#set($property = $GenUtils.converColumnName($keyFields.get(0).get("COLUMN_NAME")))
+	#set($size = $keyFields.get(0).get("COLUMN_SIZE"))
+    #if($size)
+	@Size(max=$size)
+    #end	
+	@Column(name="$keyFields.get(0).get("COLUMN_NAME")")
+	private $keySet.get("TYPE") $property;
+	#end
+  #end
+  #foreach ($field in $fields)
+    #set($fieldName = $field.get("COLUMN_NAME"))	
+	#set($fieldType = $field.get("DATA_TYPE"))
+	#set($keyField = $field.get("IS_PRIMARYKEY"))
+	#set($foreignkey = $field.get("FOREIGNkEY").get("PKCOLUMN_NAME"))
+	#set($foreigntable = $GenUtils.converColumnName($field.get("FOREIGNkEY").get("PKTABLE_NAME")))
+    #set($property = ${GenUtils.converColumnName($fieldName)})
+	#if(!${keyField})
+	#if($field.get("IS_NULLABLE") == "NO")
+	@NotNull
+	#end
+	#if($field.get("COLUMN_SIZE"))
+	@Size(max=$field.get("COLUMN_SIZE"))
+	#end
+	#if($foreignkey)
+    @ManyToOne
+	@JoinColumn(name="$foreignkey")
+    private $StringUtils.capitalize($foreigntable) $foreigntable;	
+	#else
+	@Column(name="${fieldName}")
+	private $fieldType $property;	
+	#end
+	#end
+	
+  #end 
+	#if($keySet.get("EMBADABLE"))
+	public void set$keySet.get("TYPE")($keySet.get("TYPE") $StringUtils.uncapitalize($keySet.get("TYPE"))) {
+		this.$StringUtils.uncapitalize($keySet.get("TYPE")) = $StringUtils.uncapitalize($keySet.get("TYPE"));
+	}
+	
+	public $keySet.get("TYPE") get$keySet.get("TYPE")() {
+		return $StringUtils.uncapitalize($keySet.get("TYPE"));
+	}
+	#else
+	#set($keyFields = $keySet.get("KEYS"))
+	#set($property = $GenUtils.converColumnName($keyFields.get(0).get("COLUMN_NAME")))
+	public void set$StringUtils.capitalize($property)($keySet.get("TYPE") $property) {
+		this.$property = $property;
+	}
+	
+	public $keySet.get("TYPE") get$StringUtils.capitalize($property)() {
+		return $property;
+	}
+	#end	   
+
+	#foreach ($field in $fields)
+    #set($fieldName = $field.get("COLUMN_NAME"))	
+	#set($fieldType = $field.get("DATA_TYPE"))
+	#set($keyField = $field.get("IS_PRIMARYKEY"))
+	#set($foreignkey = $field.get("FOREIGNkEY").get("PKCOLUMN_NAME"))
+	#set($foreigntable = $GenUtils.converColumnName($field.get("FOREIGNkEY").get("PKTABLE_NAME")))
+    #set($property = ${GenUtils.converColumnName($fieldName)})		
+	#if(!${keyField})
+	#if($foreignkey)
+    public void set$StringUtils.capitalize($foreigntable)($StringUtils.capitalize($foreigntable) $foreigntable) {
+        this.$foreigntable = $foreigntable;
+	}
+	
+    public $StringUtils.capitalize($foreigntable) get$StringUtils.capitalize($foreigntable)() {
+		return $foreigntable;
+	}
+	#else
+	public void set$StringUtils.capitalize($property)($fieldType $property) {
+		this.$property = $property;
+	}
+	
+	public $fieldType get$StringUtils.capitalize($property)() {
+		return $property;
+	}
+	#end
+	#end
+  #end  
+  
+  
+}

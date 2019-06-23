@@ -1,0 +1,38 @@
+package ${rootpackage}.api;
+
+import io.swagger.annotations.ApiOperation;
+
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import java.io.Serializable;
+import java.util.List;
+
+import javax.validation.Valid;
+
+public interface BaseQueryController<T extends Serializable> {
+
+	/*
+	@PreAuthorize("hasAuthority('FOO_READ')")
+    @RequestMapping(method = RequestMethod.GET)
+    @ApiOperation(value = "query result",notes = "query result")
+    Page<T> query(@Valid @ModelAttribute RequestPage requestPage, @Valid @RequestParam(value = "search") String search);
+	
+	*/
+	
+	/*
+	 * The format of the query
+	 * firstName!=john
+	 * firstName==Jie*
+	 * age>15
+	 * age>=15
+	 * age<=15
+	 * firstName=in=(john,jack)
+	 */
+	
+	@PreAuthorize("hasAuthority('FOO_READ')")
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @ApiOperation(value = "query result",notes = "query result")
+    List<T> queryByCondition(@Valid @RequestParam(value = "search") String search);	
+}

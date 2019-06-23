@@ -1,0 +1,6 @@
+package ${rootpackage}.service;
+
+public interface SortColumnBinding {
+
+    String getSortColumns();
+}

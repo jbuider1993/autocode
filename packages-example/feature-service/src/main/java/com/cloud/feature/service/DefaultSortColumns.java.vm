@@ -1,0 +1,11 @@
+package ${rootpackage}.service;
+
+import ${rootpackage}.model.RequestPage;
+
+public class DefaultSortColumns implements SortColumnBinding {
+
+    @Override
+    public String getSortColumns() {
+        return RequestPage.DEFAULT_SORT_COLUMNS;
+    }
+}
